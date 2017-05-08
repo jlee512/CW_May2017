@@ -17,16 +17,20 @@ public class StockList {
         // New code here
         // Variable initialisation
         String listPairSummaryString = "";
-        int[] categoryCount;
+        int[] categoryCount = new int[lstOf1stLetter.length];
         Arrays.sort(lstOfArt);
         Arrays.sort(lstOf1stLetter);
 
         // Confirm number length based on first book code entry
         boolean endOfNumber = false;
+        int lengthOfNum = 1;
         while (!endOfNumber){
-
+            if (Character.isDigit(lstOfArt[0].charAt(lstOfArt[0].length() - (lengthOfNum + 1)))){
+                lengthOfNum += 1;
+            } else {
+                endOfNumber = true;
+            }
         }
-
 
         if (lstOfArt.length == 0 || lstOf1stLetter.length == 0) {
             return listPairSummaryString;
@@ -35,6 +39,7 @@ public class StockList {
             String stringOf1stLetter = "";
             for (int i = 0; i < lstOf1stLetter.length; i++) {
                 stringOf1stLetter += lstOf1stLetter[i];
+                categoryCount[i] = 0;
             }
             char[] charArray = stringOf1stLetter.toCharArray();
             categoryCount = new int[charArray.length];
@@ -42,11 +47,12 @@ public class StockList {
             //Loop through each book code in stock and
             for (int i = 0; i < lstOfArt.length; i++) {
                 char artCategory = lstOfArt[i].charAt(0);
-                int individualCount = lstOfArt
+                int artStockCount = Integer.parseInt(lstOfArt[i].substring((lstOfArt[i].length() - lengthOfNum), lstOfArt[i].length()));
+
                 //Binary search the artCategory from within the lstOf1stLetter array
                 int foundCategoryIndex = Arrays.binarySearch(charArray, artCategory);
                 if (foundCategoryIndex > -1) {
-                    categoryCount[foundCategoryIndex] += ;
+                    categoryCount[foundCategoryIndex] += artStockCount;
                 }
             }
         }
