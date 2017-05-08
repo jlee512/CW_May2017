@@ -1,5 +1,4 @@
-import java.lang.reflect.Array;
-import java.util.Arrays;
+import java.util.*;
 
 /**
  * Created by jlee512 on 8/05/2017.
@@ -15,63 +14,64 @@ public class StockList {
 
     public static String stockSummary(String[] lstOfArt, String[] lstOf1stLetter) {
         // New code here
-        // Variable initialisation
+        // Initialise lstOf1stLetter as a HashMap to log counts and initialise output string
         String listPairSummaryString = "";
-        int[] categoryCount = new int[lstOf1stLetter.length];
-        Arrays.sort(lstOfArt);
-        Arrays.sort(lstOf1stLetter);
+        Map<Character, Integer> categories = new HashMap<>();
+
+        /*If either of the input string arrays are blank, return an empty array or progress to stock search/add process*/
+        if (lstOf1stLetter.length == 0 && lstOfArt.length == 0) {
+            return "";
+        } else if (lstOfArt.length == 0) {
+            return "";
+        } else if (lstOf1stLetter.length == 0) {
+            return "";
+        } else {
+            for (int i = 0; i < lstOf1stLetter.length; i++) {
+                categories.put(lstOf1stLetter[i].charAt(0), 0);
+            }
+        }
 
         // Confirm number length based on first book code entry
         boolean endOfNumber = false;
         int lengthOfNum = 1;
-        while (!endOfNumber){
-            if (Character.isDigit(lstOfArt[0].charAt(lstOfArt[0].length() - (lengthOfNum + 1)))){
+        while (!endOfNumber) {
+            if (Character.isDigit(lstOfArt[0].charAt(lstOfArt[0].length() - (lengthOfNum + 1)))) {
                 lengthOfNum += 1;
             } else {
                 endOfNumber = true;
             }
         }
 
-        if (lstOfArt.length == 0 || lstOf1stLetter.length == 0) {
-            return listPairSummaryString;
-        } else {
-            //Convert lstOf1stLetter to a char array and setup integer of category count (note charArray indices will correspond to category count indices)
-            String stringOf1stLetter = "";
-            for (int i = 0; i < lstOf1stLetter.length; i++) {
-                stringOf1stLetter += lstOf1stLetter[i];
-                categoryCount[i] = 0;
-            }
-            char[] charArray = stringOf1stLetter.toCharArray();
-            categoryCount = new int[charArray.length];
 
-            //Loop through each book code in stock and
+            //Loop through each book code in stock and add corresponding stock count to hashmap values
             for (int i = 0; i < lstOfArt.length; i++) {
                 char artCategory = lstOfArt[i].charAt(0);
                 int artStockCount = Integer.parseInt(lstOfArt[i].substring((lstOfArt[i].length() - lengthOfNum), lstOfArt[i].length()));
 
-                //Binary search the artCategory from within the lstOf1stLetter array
-                int foundCategoryIndex = Arrays.binarySearch(charArray, artCategory);
-                if (foundCategoryIndex > -1) {
-                    categoryCount[foundCategoryIndex] += artStockCount;
+                //If the value is in the hashmap already, find the value and increase by the specific book's stock count, otherwise set the stock count to the specific book's count
+                if (categories.containsKey(artCategory)){
+                    categories.put(artCategory, categories.get(artCategory) + artStockCount);
+                } else {
+                    categories.put(artCategory, artStockCount);
                 }
             }
-        }
 
         //Format output string and return
-        for (int i = 0; i < lstOf1stLetter.length; i++) {
-            if (i < (lstOf1stLetter.length -1)) {
-                listPairSummaryString += "(" + lstOf1stLetter[i] + " : " + categoryCount[i] + ") - ";
-            } else {
-                listPairSummaryString += "(" + lstOf1stLetter[i] + " : " + categoryCount[i] + ")";
-            }
+        for(int i = 0; i < lstOf1stLetter.length; i++) {
+            listPairSummaryString += "(" + lstOf1stLetter[i] + " : " + categories.get(lstOf1stLetter[i].charAt(0)) + ") - ";
         }
-        System.out.println(listPairSummaryString);
+        listPairSummaryString = listPairSummaryString.substring(0, (listPairSummaryString.length() - 3));
         return listPairSummaryString;
-        }
+    }
 
     public static void main(String[] args) {
         String[] L = {"ABART 20", "CDXEF 50", "BKWRK 25", "BTSQZ 89", "DRTYM 60"};
+        String[] L2 = {"ABAR 200", "CDXE 500", "BKWR 250", "BTSQ 890", "DRTY 600"};
         String [] M = {"A", "C", "B", "W"};
-        StockList.stockSummary(L, M);
+        String[] M2 = {};
+        String[] L3 = {};
+        System.out.println(StockList.stockSummary(L, M));
+        System.out.println(StockList.stockSummary(L, M2));
+        System.out.println(StockList.stockSummary(L3, M));
     }
 }
