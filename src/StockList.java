@@ -15,22 +15,57 @@ public class StockList {
 
     public static String stockSummary(String[] lstOfArt, String[] lstOf1stLetter) {
         // New code here
+        // Variable initialisation
         String listPairSummaryString = "";
+        int[] categoryCount;
         Arrays.sort(lstOfArt);
         Arrays.sort(lstOf1stLetter);
+
+        // Confirm number length based on first book code entry
+        boolean endOfNumber = false;
+        while (!endOfNumber){
+
+        }
+
 
         if (lstOfArt.length == 0 || lstOf1stLetter.length == 0) {
             return listPairSummaryString;
         } else {
-            System.out.println(lstOfArt);
-            System.out.println(lstOf1stLetter);
+            //Convert lstOf1stLetter to a char array and setup integer of category count (note charArray indices will correspond to category count indices)
+            String stringOf1stLetter = "";
+            for (int i = 0; i < lstOf1stLetter.length; i++) {
+                stringOf1stLetter += lstOf1stLetter[i];
+            }
+            char[] charArray = stringOf1stLetter.toCharArray();
+            categoryCount = new int[charArray.length];
 
+            //Loop through each book code in stock and
+            for (int i = 0; i < lstOfArt.length; i++) {
+                char artCategory = lstOfArt[i].charAt(0);
+                int individualCount = lstOfArt
+                //Binary search the artCategory from within the lstOf1stLetter array
+                int foundCategoryIndex = Arrays.binarySearch(charArray, artCategory);
+                if (foundCategoryIndex > -1) {
+                    categoryCount[foundCategoryIndex] += ;
+                }
+            }
         }
+
+        //Format output string and return
+        for (int i = 0; i < lstOf1stLetter.length; i++) {
+            if (i < (lstOf1stLetter.length -1)) {
+                listPairSummaryString += "(" + lstOf1stLetter[i] + " : " + categoryCount[i] + ") - ";
+            } else {
+                listPairSummaryString += "(" + lstOf1stLetter[i] + " : " + categoryCount[i] + ")";
+            }
+        }
+        System.out.println(listPairSummaryString);
         return listPairSummaryString;
-    }
+        }
 
     public static void main(String[] args) {
-        String[] L = Keyboard
-        StockList test = new StockList();
+        String[] L = {"ABART 20", "CDXEF 50", "BKWRK 25", "BTSQZ 89", "DRTYM 60"};
+        String [] M = {"A", "C", "B", "W"};
+        StockList.stockSummary(L, M);
     }
 }
