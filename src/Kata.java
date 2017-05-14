@@ -6,16 +6,16 @@ public class Kata {
         // Code here or
         int max;
         int min;
-        String[] numbersSplit = numbers.split()
+        String[] numbersSplit = numbers.split(" ");
         if(numbers.length() == 1){
-            return (numbers + numbers);
+            return (numbersSplit[0] + numbersSplit[0]);
         }
         else {
-            max = Math.max(Integer.parseInt(numbers.substring(0, 0)), Integer.parseInt(numbers.substring(1,1)));
-            min = Math.min(Integer.parseInt(numbers.substring(0, 0)), Integer.parseInt(numbers.substring(1,1)));
-            for (int i = 2; i < (numbers.length() - 1); i++) {
-                int firstNumber = Integer.parseInt(numbers.substring(i,i));
-                int secondNumber = Integer.parseInt(numbers.substring(i + 1, i + 1));
+            max = Math.max(Integer.parseInt(numbersSplit[0]), Integer.parseInt(numbersSplit[1]));
+            min = Math.min(Integer.parseInt(numbersSplit[0]), Integer.parseInt(numbersSplit[1]));
+            for (int i = 2; i < (numbersSplit.length - 1); i++) {
+                int firstNumber = Integer.parseInt(numbersSplit[i]);
+                int secondNumber = Integer.parseInt(numbersSplit[i + 1]);
                 if (firstNumber < secondNumber){
                     min = Math.min(min, firstNumber);
                     max = Math.max(max, secondNumber);
@@ -31,8 +31,8 @@ public class Kata {
 
     public static void main(String[] args) {
         Kata test = new Kata();
-        test.HighAndLow("1 2 3 4 5");
-        test.HighAndLow("1 2 -3 4 5");
-        test.HighAndLow("1 9 3 4 -5");
+        System.out.println(test.HighAndLow("1 2 3 4 5"));
+        System.out.println(test.HighAndLow("1 2 -3 4 5"));
+        System.out.println(test.HighAndLow("1 9 3 4 -5"));
     }
 }
